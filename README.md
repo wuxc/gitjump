@@ -12,18 +12,16 @@ commands:
 Usage:
 
 1. load
-
-```
-$ source ./gitjump.sh
-```
-or add it to your ~/.bashrc.
+  ```
+  $ source ./gitjump.sh
+  ```
+  or add it to your ~/.bashrc.
 
 2. fire
-
-```
-$ cd my/awesome/repos.git
-$ git first
-$ git next
-```
+  ```
+  $ cd my/awesome/repos.git
+  $ git first
+  $ git next
+  ```
 
 Have fun!
