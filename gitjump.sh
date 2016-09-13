@@ -1,4 +1,12 @@
 #! /bin/bash
+#
+# Author: wuxc (https://github.com/wuxc)
+# License: MIT
+# Usage: 
+#   $ source path/to/gitjump.sh
+#   $ cd your/repos.git
+#   $ git first
+#   $ git next
 
 docstring="Hello, this is git jump.\n
 A tiny git command wrapper for view git commits.\n
