@@ -13,9 +13,14 @@ Usage:
 
 1. load
   ```
+  $ wget --no-check-certificate https://raw.githubusercontent.com/wuxc/gitjump/master/gitjump.sh
   $ source ./gitjump.sh
   ```
-  or add it to your ~/.bashrc.
+  or add it to your ~/.bashrc:
+  
+  ```
+  $ echo "source `pwd`/gitjump.sh" >> ~/.bashrc
+  ```
 
 2. fire
   ```
