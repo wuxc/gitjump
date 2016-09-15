@@ -52,23 +52,25 @@ function _git_checkout_commit {
     next_commitid=$2
     branch_name="${branch_prefix}${commitid:0:8}"
     ## clear old branches
-    already_exist=0
-    $orig_git branch | grep -v "*" | grep $branch_prefix | while read line
+    already_exist=false
+    for line in `$orig_git branch | grep -v "*" | grep $branch_prefix`
     do
         if [ $line = $branch_name ]; then
-            already_exist=1
+            echo 'already_exist!'
+            already_exist=true
             continue
         fi
         $orig_git branch -D -q $line
-    done    
+    done
     ## discard modifications before switch branch
+    $orig_git clean -fd
     $orig_git checkout -- .
     ## switch branch
     echo "checking out to: $branch_name ($commitid)"
-    if [ $already_exist = 1 ]; then
-        $orig_git checkout $branch_name
+    if $already_exist; then
+        $orig_git checkout $branch_name > /dev/null
     else
-        $orig_git checkout $commitid -b $branch_name > /dev/null 2>&1
+        $orig_git checkout $commitid -b $branch_name > /dev/null
     fi
     branch=`$orig_git branch | grep "*" | cut -c 3-`
     echo "on branch: $branch"
@@ -80,8 +82,10 @@ function _git_checkout_commit {
     else
         $orig_git cherry-pick --no-commit --allow-empty --allow-empty-message $next_commitid
     fi
-    $orig_git reset HEAD -- .
+    $orig_git reset HEAD -- . >> /dev/null
     echo "applied modifications from $next_commitid"
+    $orig_git log $next_commitid -1 --pretty=format:"%n %Cgreen%an (%ae)%Creset %cd%n %Cblue%s%Creset%n"
+    $orig_git diff --stat
 }
 
 
