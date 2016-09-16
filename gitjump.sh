@@ -15,7 +15,7 @@ commands:\n
 \t'git prev' ('git p' for short): jump to previous commit,\n
 \t'git first' : jump to oldest commit,\n
 \t'git last'  : jump to most recent commit."
-orig_git=`which git`
+orig_git=`/usr/bin/which git`
 logfile=".git/jump_logfile"
 branch_prefix="branch-"
 
@@ -56,7 +56,6 @@ function _git_checkout_commit {
     for line in `$orig_git branch | grep -v "*" | grep $branch_prefix`
     do
         if [ $line = $branch_name ]; then
-            echo 'already_exist!'
             already_exist=true
             continue
         fi
@@ -94,7 +93,11 @@ function _git_jump_near {
     # get current commit id
     current=`$orig_git show|head -n1|cut -d' ' -f2`
     # get newer 2 & older 1 (nexnext - next - current - prev)
-    nearby=`cat $logfile|grep -A1 -B2 $current|awk -F' ' '{print $1} END {print  NR}'`
+    nearby=`cat $logfile|grep -A1 -B2 $current|awk -F' ' '{print $1} END {print  NR}' | tr '\n' ' '`
+    # remove trailing space
+    if [ "${nearby:0-1}" = " " ]; then
+        nearby=${nearby% *}
+    fi
     lines=${nearby:0-1}
     case $lines in
         "0"|"1")
@@ -129,13 +132,13 @@ function _git_jump_near {
         ;;
     esac
 
-    if [ $1 == "prev" ]; then
+    if [ $1 = "prev" ]; then
         if [ -z $prev ]; then
             echo 'No prev commit.'
             return
         fi
         _git_checkout_commit $prev $current
-    elif [ $1 == "next" ]; then
+    elif [ $1 = "next" ]; then
         if [ -z $next -o -z $nexnext ]; then
             echo 'No next commit.'
             return
@@ -197,5 +200,5 @@ function git {
             last) builtin cd $gitdir/..; _git_jump_far last; builtin cd $workdir; return ;;
         esac
     fi
-    $orig_git $*
+    $orig_git "$@"
 }
