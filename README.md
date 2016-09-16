@@ -24,9 +24,13 @@ Usage:
 
 2. fire
   ```
-  $ cd my/awesome/repos.git
+  $ cd some/awesome/repos.git
   $ git first
   $ git next
   ```
 
 Have fun!
+
+Tested on bash/zsh on mac OS. 
+
+Please create an issue if you find anything wrong or have a suggestion.
