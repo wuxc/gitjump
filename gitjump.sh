@@ -170,10 +170,10 @@ function git {
         return 127
     fi
     ## not a git repos
-    $orig_git show > /dev/null
-    ret=$?
-    if [ $ret != 0 ]; then
-        return $ret
+    $orig_git show > /dev/null 2>&1
+    if [ $? != 0 ]; then
+        $orig_git "$@"
+        return $?
     fi
     ## find .git directory
     n=1
