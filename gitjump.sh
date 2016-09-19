@@ -154,8 +154,8 @@ function _git_jump_far {
     elif [ $1 = "last" ]; then
         commits=`cat $logfile|head -n2|cut -d' ' -f1`
     fi
-    new=`echo $commits|awk '{print $1}'`
-    old=`echo $commits|awk '{print $2}'`
+    new=`echo $commits|tr '\n' ' '|awk '{print $1}'`
+    old=`echo $commits|tr '\n' ' '|awk '{print $2}'`
     if [ "$old" = "" -o "$new" = "" ]; then
         echo "No more commits."
         return
