@@ -1,3 +1,5 @@
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/gitjump/Lobby)
+
 #### GitJump
 
 A tiny git command wrapper for view git commits.
@@ -27,6 +29,10 @@ Usage:
   $ cd some/awesome/repos.git
   $ git first
   $ git next
+  $ git diff
+  $ git n
+  $ git diff 
+  ......
   ```
 
 Have fun!
