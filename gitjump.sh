@@ -122,7 +122,7 @@ function _git_jump {
     fi
 
     ## 0 for newest
-    totallines=`cat $logfile|awk 'END{print NR}'`
+    totallines=`cat $logfile | awk 'END{print NR}'`
     if [ $commit -eq 0 ] &> /dev/null; then
         commit=$totallines
     fi
@@ -133,8 +133,8 @@ function _git_jump {
         if [ -z $sign ]; then
             n=$commit
         else
-            current=`$orig_git show|head -n1|cut -d' ' -f2`
-            n=`cat $logfile|grep -n "^$current" |cut -d':' -f1`
+            current=`$orig_git show | head -n1 | cut -d' ' -f2`
+            n=`cat $logfile|grep -n "^$current" | cut -d':' -f1`
             n=$(($totallines+1-$n))
             if [ $sign = "+" ]; then
                 n=$(($n+$commit))
@@ -143,11 +143,11 @@ function _git_jump {
             fi
         fi
     else
-        n=`cat $logfile|grep -n "^$1" |cut -d':' -f1`
+        n=`cat $logfile | grep -n "^$1" | cut -d':' -f1`
         if [ "$n" = "" ]; then
             echo "No match commitid found for '$1'"
             return
-        elif [ `echo $n | awk -F' ' '{print NF}'` -gt 1 ]; then
+        elif [ `echo $n | tr '\n' ' ' | awk -F' ' '{print NF}'` -gt 1 ]; then
             echo "Multiple matches found for '$1', please use more specific commit id."
             return
         fi
@@ -166,9 +166,9 @@ function _git_jump {
         new=
     else
         let n++
-        commits=`cat $logfile|tail -n $n| head -n2| cut -d' ' -f1`
-        new=`echo $commits|tr '\n' ' '|awk '{print $1}'`
-        old=`echo $commits|tr '\n' ' '|awk '{print $2}'`
+        commits=`cat $logfile | tail -n $n | head -n2 | cut -d' ' -f1`
+        new=`echo $commits | tr '\n' ' ' | awk '{print $1}'`
+        old=`echo $commits | tr '\n' ' ' | awk '{print $2}'`
     fi
     ## special case for oldest -1
     if [ -z $old ]; then
